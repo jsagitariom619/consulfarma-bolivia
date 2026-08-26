@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0f5a3e" />
+  <meta name="description" content="Consulfarma: atención integral en salud, farmacia, atención médica, fisioterapia, sueroterapia, enfermería y soluciones naturales." />
+  <title>Consulfarma | Salud integral y bienestar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="site-header" id="inicio">
+    <div class="container nav-wrap">
+      <a class="brand" href="#inicio" aria-label="Consulfarma, inicio">
+        <img src="assets/logo-consulfarma.webp" alt="Logo de Consulfarma" class="brand-logo" />
+        <span class="brand-copy">
+          <strong>CONSULFARMA</strong>
+          <small>Salud, bienestar y cuidado integral</small>
+        </span>
+      </a>
+
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Abrir menú">
+        <i data-lucide="menu"></i>
+      </button>
+
+      <nav class="main-nav" id="main-nav" aria-label="Navegación principal">
+        <a class="active" href="#inicio">Inicio</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#naturales">Productos naturales</a>
+        <a href="#educa">Educa</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+
+      <a class="btn btn-primary header-cta" href="#contacto">
+        <i data-lucide="calendar-days"></i>
+        Agenda tu cita
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-leaf hero-leaf-left" aria-hidden="true"></div>
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">Salud integral para toda la familia</span>
+          <h1>Cuidamos tu salud de forma <em>integral y natural</em></h1>
+          <p>Servicios profesionales, orientación responsable, educación en salud y soluciones naturales para acompañarte en cada etapa de tu bienestar.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#servicios">Conoce nuestros servicios <i data-lucide="arrow-right"></i></a>
+            <a class="btn btn-outline" href="#contacto">Contáctanos <i data-lucide="message-circle"></i></a>
+          </div>
+
+          <div class="trust-row" aria-label="Valores de Consulfarma">
+            <div><i data-lucide="user-round-check"></i><span><strong>Atención profesional</strong><small>Calidez y experiencia</small></span></div>
+            <div><i data-lucide="heart-pulse"></i><span><strong>Enfoque integral</strong><small>Cuerpo, mente y bienestar</small></span></div>
+            <div><i data-lucide="leaf"></i><span><strong>Productos naturales</strong><small>Calidad y confianza</small></span></div>
+            <div><i data-lucide="book-open-check"></i><span><strong>Educación en salud</strong><small>Información que te cuida</small></span></div>
+          </div>
+        </div>
+
+        <div class="hero-visual" role="img" aria-label="Atención de salud cercana y humana">
+          <div class="hero-photo hero-photo-main"></div>
+          <div class="hero-badge"><i data-lucide="sprout"></i><span>Cuidado que acompaña cada día</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="services" id="servicios">
+      <div class="container">
+        <div class="section-heading centered light">
+          <span class="eyebrow">Todo en un mismo lugar</span>
+          <h2>Nuestros servicios</h2>
+          <p>Atención cercana, profesional y coordinada para cuidar de ti y tu familia.</p>
+        </div>
+
+        <div class="service-grid">
+          <article class="service-card">
+            <div class="icon-bubble"><i data-lucide="pill-bottle"></i></div>
+            <h3>Farmacia</h3>
+            <p>Orientación farmacéutica y dispensación responsable.</p>
+            <a href="#farmacia">Más información <i data-lucide="arrow-right"></i></a>
+          </article>
+          <article class="service-card">
+            <div class="icon-bubble"><i data-lucide="stethoscope"></i></div>
+            <h3>Atención médica</h3>
+            <p>Consulta médica general con enfoque integral.</p>
+            <a href="#medicina">Más información <i data-lucide="arrow-right"></i></a>
+          </article>
+          <article class="service-card">
+            <div class="icon-bubble"><i data-lucide="accessibility"></i></div>
+            <h3>Fisioterapia</h3>
+            <p>Rehabilitación, prevención y recuperación funcional.</p>
+            <a href="#fisioterapia">Más información <i data-lucide="arrow-right"></i></a>
+          </article>
+          <article class="service-card">
+            <div class="icon-bubble"><i data-lucide="badge-plus"></i></div>
+            <h3>Sueroterapia</h3>
+            <p>Atención personalizada según valoración profesional.</p>
+            <a href="#sueroterapia">Más información <i data-lucide="arrow-right"></i></a>
+          </article>
+          <article class="service-card">
+            <div class="icon-bubble"><i data-lucide="heart-handshake"></i></div>
+            <h3>Enfermería</h3>
+            <p>Procedimientos y cuidados realizados por personal capacitado.</p>
+            <a href="#enfermeria">Más información <i data-lucide="arrow-right"></i></a>
+          </article>
+          <article class="service-card">
+            <div class="icon-bubble"><i data-lucide="leaf"></i></div>
+            <h3>Productos naturales y soluciones artesanales</h3>
+            <p>Una línea seleccionada para complementar hábitos de bienestar.</p>
+            <a href="#naturales">Más información <i data-lucide="arrow-right"></i></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="about section" id="nosotros">
+      <div class="container split-grid">
+        <div class="photo-card about-photo" aria-hidden="true"></div>
+        <div class="content-card">
+          <span class="eyebrow">Quiénes somos</span>
+          <h2>Una forma más humana de acompañar tu salud</h2>
+          <p>Consulfarma integra servicios de salud, acompañamiento profesional, educación y bienestar en un entorno cercano y confiable. Nuestro objetivo es facilitar el acceso a orientación responsable y cuidados de calidad.</p>
+          <div class="mini-points">
+            <span><i data-lucide="badge-check"></i> Atención personalizada</span>
+            <span><i data-lucide="shield-check"></i> Prácticas responsables</span>
+            <span><i data-lucide="users"></i> Enfoque familiar</span>
+            <span><i data-lucide="sprout"></i> Bienestar integral</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="details section" aria-label="Detalle de servicios">
+      <div class="container detail-list">
+        <article class="detail-card" id="farmacia">
+          <div class="detail-icon"><i data-lucide="pill"></i></div>
+          <div><span class="eyebrow">Servicio de farmacia</span><h3>Orientación y dispensación responsable</h3><p>Un servicio enfocado en acompañar el uso seguro y responsable de medicamentos, con información clara y atención cercana.</p></div>
+        </article>
+        <article class="detail-card" id="medicina">
+          <div class="detail-icon"><i data-lucide="stethoscope"></i></div>
+          <div><span class="eyebrow">Atención médica</span><h3>Consulta médica con visión integral</h3><p>Valoración clínica orientada a prevención, diagnóstico, seguimiento y educación del paciente, con atención individualizada.</p></div>
+        </article>
+        <article class="detail-card" id="fisioterapia">
+          <div class="detail-icon"><i data-lucide="activity"></i></div>
+          <div><span class="eyebrow">Fisioterapia</span><h3>Movimiento, recuperación y calidad de vida</h3><p>Atención orientada a recuperar función, aliviar limitaciones y prevenir nuevas molestias mediante un plan individualizado.</p></div>
+        </article>
+        <article class="detail-card" id="sueroterapia">
+          <div class="detail-icon"><i data-lucide="droplets"></i></div>
+          <div><span class="eyebrow">Sueroterapia</span><h3>Administración segura bajo valoración profesional</h3><p>Procedimientos realizados de forma controlada y con criterios profesionales, priorizando siempre la seguridad del paciente.</p></div>
+        </article>
+        <article class="detail-card" id="enfermeria">
+          <div class="detail-icon"><i data-lucide="heart-handshake"></i></div>
+          <div><span class="eyebrow">Enfermería</span><h3>Cuidados y procedimientos con calidez</h3><p>Apoyo en procedimientos de enfermería y seguimiento, con trato cercano, ordenado y profesional.</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="natural section" id="naturales">
+      <div class="container natural-grid">
+        <div>
+          <span class="eyebrow">Línea natural</span>
+          <h2>Productos naturales y soluciones artesanales</h2>
+          <p>Una sección dedicada a opciones de origen natural y preparaciones artesanales seleccionadas para complementar el cuidado cotidiano y los hábitos saludables.</p>
+          <p class="note"><i data-lucide="info"></i> La información de esta sección es educativa y no sustituye una valoración médica ni tratamientos prescritos.</p>
+          <a class="btn btn-primary" href="#contacto">Consultar disponibilidad <i data-lucide="message-circle"></i></a>
+        </div>
+        <div class="natural-art" aria-hidden="true"><div class="natural-bottle"></div><div class="natural-leaves"></div></div>
+      </div>
+    </section>
+
+    <section class="education section" id="educa">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Consulfarma Educa</span>
+          <h2>Información útil para cuidar mejor tu salud</h2>
+          <p>Contenido educativo explicado de manera clara, práctica y responsable.</p>
+        </div>
+        <div class="article-grid">
+          <article class="article-card"><div class="article-image hydration"></div><div class="article-body"><span>Bienestar</span><h3>Hidratación: hábitos sencillos para el día a día</h3><p>Consejos prácticos para mantener una hidratación adecuada.</p><a href="#">Leer artículo <i data-lucide="arrow-up-right"></i></a></div></article>
+          <article class="article-card"><div class="article-image plants"></div><div class="article-body"><span>Productos naturales</span><h3>Cómo usar productos naturales de forma responsable</h3><p>Qué considerar antes de incorporar una solución natural a tu rutina.</p><a href="#">Leer artículo <i data-lucide="arrow-up-right"></i></a></div></article>
+          <article class="article-card"><div class="article-image prevention"></div><div class="article-body"><span>Prevención</span><h3>Chequeos de salud: cuándo conviene consultar</h3><p>Señales y momentos en los que una valoración profesional puede ayudarte.</p><a href="#">Leer artículo <i data-lucide="arrow-up-right"></i></a></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact section" id="contacto">
+      <div class="container contact-shell">
+        <div>
+          <span class="eyebrow">Estamos para ayudarte</span>
+          <h2>Agenda tu atención en Consulfarma</h2>
+          <p>Contáctanos para conocer horarios, servicios disponibles y coordinar tu atención.</p>
+          <div class="contact-actions">
+            <a class="btn btn-white" href="#" aria-label="Contactar por WhatsApp"><i data-lucide="message-circle"></i> WhatsApp</a>
+            <a class="btn btn-ghost" href="tel:+59100000000"><i data-lucide="phone"></i> Llamar</a>
+          </div>
+        </div>
+        <div class="contact-info">
+          <div><i data-lucide="clock-3"></i><span><strong>Horarios</strong><small>Configurar horarios de atención</small></span></div>
+          <div><i data-lucide="map-pin"></i><span><strong>Ubicación</strong><small>Agregar dirección exacta</small></span></div>
+          <div><i data-lucide="instagram"></i><span><strong>Redes sociales</strong><small>Agregar enlaces oficiales</small></span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-grid">
+      <div class="brand footer-brand">
+        <img src="assets/logo-consulfarma.webp" alt="Logo de Consulfarma" class="brand-logo" />
+        <span class="brand-copy"><strong>CONSULFARMA</strong><small>Salud, bienestar y cuidado integral</small></span>
+      </div>
+      <p>© <span id="year"></span> Consulfarma. Todos los derechos reservados.</p>
+      <div class="footer-links"><a href="#servicios">Servicios</a><a href="#educa">Educa</a><a href="#contacto">Contacto</a></div>
+    </div>
+  </footer>
+
+  <a class="floating-whatsapp" href="#contacto" aria-label="Ir a contacto"><i data-lucide="message-circle"></i></a>
+</body>
+</html>
