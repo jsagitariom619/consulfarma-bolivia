@@ -15,27 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
     link.setAttribute('aria-label', 'Escribir a Consulfarma por WhatsApp');
   });
 
-  const medicalPhoto = document.querySelector('[data-medical-photo]');
-  const medicalHero = document.querySelector('.medical-hero-photo');
-  if (medicalPhoto || medicalHero) {
-    fetch('assets/consultorio-medico-consulfarma-inline.txt', { cache: 'no-cache' })
-      .then(response => {
-        if (!response.ok) throw new Error('No se pudo cargar la imagen del consultorio');
-        return response.text();
-      })
-      .then(dataUri => {
-        const imageSource = dataUri.trim();
-        if (!imageSource.startsWith('data:image/')) throw new Error('Formato de imagen inválido');
-        if (medicalPhoto) medicalPhoto.src = imageSource;
-        if (medicalHero) {
-          medicalHero.style.backgroundImage = `linear-gradient(145deg,rgba(15,90,62,.06),rgba(255,255,255,.08)),url("${imageSource}")`;
-          medicalHero.style.backgroundSize = 'cover';
-          medicalHero.style.backgroundPosition = 'center';
-        }
-      })
-      .catch(error => console.error(error));
-  }
-
   const homeContactItems = document.querySelectorAll('.contact-info > div');
   if (homeContactItems.length >= 3) {
     const hours = homeContactItems[0].querySelector('small');
