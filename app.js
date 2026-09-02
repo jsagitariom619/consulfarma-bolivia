@@ -1,6 +1,41 @@
 document.addEventListener('DOMContentLoaded', () => {
   if (window.lucide) lucide.createIcons();
 
+  const contact = {
+    whatsappDisplay: '+591 759 19302',
+    whatsappUrl: 'https://wa.me/59175919302',
+    hours: 'Lunes a domingo · 08:00 a 23:00',
+    address: 'Calle Strongest N.º 15 y Av. Miguel de Cervantes'
+  };
+
+  document.querySelectorAll('.floating-whatsapp, [data-whatsapp]').forEach(link => {
+    link.setAttribute('href', contact.whatsappUrl);
+    link.setAttribute('target', '_blank');
+    link.setAttribute('rel', 'noopener');
+    link.setAttribute('aria-label', 'Escribir a Consulfarma por WhatsApp');
+  });
+
+  const homeContactItems = document.querySelectorAll('.contact-info > div');
+  if (homeContactItems.length >= 3) {
+    const hours = homeContactItems[0].querySelector('small');
+    const address = homeContactItems[1].querySelector('small');
+    const whatsapp = homeContactItems[2].querySelector('small');
+    if (hours) hours.textContent = contact.hours;
+    if (address) address.textContent = contact.address;
+    if (whatsapp) whatsapp.textContent = contact.whatsappDisplay;
+  }
+
+  if (document.body.dataset.page === 'inicio') {
+    const heroLinks = document.querySelectorAll('.hero-actions a');
+    if (heroLinks[1]) {
+      heroLinks[1].setAttribute('href', contact.whatsappUrl);
+      heroLinks[1].setAttribute('target', '_blank');
+      heroLinks[1].setAttribute('rel', 'noopener');
+      heroLinks[1].innerHTML = 'Hablar por WhatsApp <i data-lucide="message-circle"></i>';
+    }
+    if (window.lucide) lucide.createIcons();
+  }
+
   const toggle = document.querySelector('.menu-toggle');
   const nav = document.querySelector('.main-nav');
 
