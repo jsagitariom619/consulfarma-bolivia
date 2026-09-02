@@ -36,4 +36,49 @@ document.addEventListener('DOMContentLoaded', () => {
       if (label) label.textContent = open ? 'Ocultar resumen' : 'Ver resumen';
     });
   });
+
+  const institutionalDialog = document.getElementById('institutional-dialog');
+  const dialogTitle = institutionalDialog?.querySelector('[data-dialog-title]');
+  const dialogContent = institutionalDialog?.querySelector('[data-dialog-content]');
+  let lastTrigger = null;
+
+  const institutionalContent = {
+    vision: {
+      title: 'Visión de Consulfarma',
+      html: '<p>Ser la farmacia integral líder y más confiable de Bolivia, reconocida por brindar soluciones completas de salud con excelencia, innovación y atención humana, mejorando la calidad de vida de nuestros pacientes y convirtiéndonos en un referente de bienestar para las familias que confían en nosotros.</p>'
+    },
+    mision: {
+      title: 'Misión de Consulfarma',
+      html: '<p>Brindar atención integral en salud a través de nuestros servicios de farmacia, consultorio médico y enfermería, ofreciendo productos de calidad, atención profesional y un trato cálido y humano. Trabajamos cada día con compromiso, responsabilidad y pasión por servir, para contribuir al bienestar y la salud de nuestra comunidad.</p>'
+    },
+    filosofia: {
+      title: 'Nuestra filosofía',
+      html: '<p>En CONSULFARMA creemos que los medicamentos pueden venderse en muchos lugares, pero la confianza y el trato humano se ganan cada día.</p><p>Nuestro compromiso es que cada paciente que ingrese a CONSULFARMA salga sintiéndose escuchado, respetado y bien atendido.</p><p>Cada colaborador representa la imagen de CONSULFARMA.</p><p>No importa el cargo.</p><p>Todos somos responsables de brindar una experiencia extraordinaria.</p>'
+    }
+  };
+
+  document.querySelectorAll('[data-institutional-open]').forEach(button => {
+    button.addEventListener('click', () => {
+      const item = institutionalContent[button.dataset.institutionalOpen];
+      if (!item || !institutionalDialog) return;
+      lastTrigger = button;
+      if (dialogTitle) dialogTitle.textContent = item.title;
+      if (dialogContent) dialogContent.innerHTML = item.html;
+      document.body.classList.add('modal-open');
+      institutionalDialog.showModal();
+    });
+  });
+
+  const closeInstitutionalDialog = () => {
+    if (!institutionalDialog?.open) return;
+    institutionalDialog.close();
+    document.body.classList.remove('modal-open');
+    lastTrigger?.focus();
+  };
+
+  institutionalDialog?.querySelector('[data-dialog-close]')?.addEventListener('click', closeInstitutionalDialog);
+  institutionalDialog?.addEventListener('click', event => {
+    if (event.target === institutionalDialog) closeInstitutionalDialog();
+  });
+  institutionalDialog?.addEventListener('close', () => document.body.classList.remove('modal-open'));
 });
