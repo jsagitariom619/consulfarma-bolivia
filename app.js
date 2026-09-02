@@ -35,4 +35,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
+
+  document.querySelectorAll('.article-toggle').forEach(button => {
+    button.setAttribute('aria-expanded', 'false');
+    button.addEventListener('click', () => {
+      const summary = button.nextElementSibling;
+      const open = summary?.classList.toggle('open');
+      button.setAttribute('aria-expanded', String(Boolean(open)));
+      button.firstChild.textContent = open ? 'Ocultar resumen ' : 'Ver resumen ';
+    });
+  });
 });
