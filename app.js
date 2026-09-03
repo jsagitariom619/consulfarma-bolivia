@@ -305,5 +305,73 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  const productCatalog = [
+    { slug: 'vinagre-noni', name: 'Vinagre de noni', summary: 'Perfil ácido y frutal para complementar preparaciones cotidianas.', description: 'Vinagre artesanal de noni, pensado para aportar un perfil ácido y frutal a preparaciones cotidianas.', benefits: ['Aporta un sabor ácido característico.', 'Complementa aderezos, salsas y marinados.', 'Elaborado artesanalmente con cultivo madre.'] },
+    { slug: 'vinagre-pitahaya-pina', name: 'Vinagre de pitahaya y piña', summary: 'Combinación frutal para realzar recetas y preparaciones frescas.', description: 'Combinación artesanal de pitahaya y piña con un perfil frutal equilibrado para realzar recetas y preparaciones frescas.', benefits: ['Aporta notas frutales de pitahaya y piña.', 'Ideal para complementar aderezos y marinados.', 'Elaborado artesanalmente con cultivo madre.'] },
+    { slug: 'vinagre-uva', name: 'Vinagre de uva', summary: 'Sabor frutal y acidez definida para preparaciones culinarias.', description: 'Vinagre artesanal de uva con sabor frutal y acidez definida, apropiado para complementar distintas preparaciones culinarias.', benefits: ['Aporta una nota frutal de uva.', 'Complementa ensaladas, salsas y marinados.', 'Elaborado artesanalmente con cultivo madre.'] },
+    { slug: 'vinagre-perejil', name: 'Vinagre de perejil', summary: 'Perfil herbal para complementar aderezos y recetas saladas.', description: 'Vinagre artesanal de perejil con un perfil herbal, creado para complementar aderezos y recetas saladas.', benefits: ['Aporta un perfil herbal de perejil.', 'Ideal para complementar preparaciones saladas.', 'Elaborado artesanalmente con cultivo madre.'] },
+    { slug: 'vinagre-coco', name: 'Vinagre de coco', summary: 'Alternativa de sabor suave y tropical para la cocina diaria.', description: 'Vinagre artesanal de coco, una alternativa de sabor suave y tropical para incorporar variedad a la cocina diaria.', benefits: ['Aporta una nota suave y tropical.', 'Complementa aderezos, salsas y marinados.', 'Elaborado artesanalmente con cultivo madre.'] },
+    { slug: 'vinagre-manzana', name: 'Vinagre de manzana', summary: 'Acidez equilibrada y perfil frutal para distintas recetas.', description: 'Vinagre artesanal de manzana con una acidez equilibrada y perfil frutal, versátil para diferentes recetas.', benefits: ['Aporta el sabor frutal de la manzana.', 'Versátil para aderezos, salsas y marinados.', 'Elaborado artesanalmente con cultivo madre.'] },
+    { slug: 'vinagre-pina', name: 'Vinagre de piña', summary: 'Notas tropicales para aportar variedad a las preparaciones.', description: 'Vinagre artesanal de piña con notas tropicales, pensado para aportar variedad y un toque frutal a las preparaciones.', benefits: ['Aporta notas tropicales de piña.', 'Complementa aderezos, salsas y marinados.', 'Elaborado artesanalmente con cultivo madre.'] }
+  ];
+  const productTrack = document.querySelector('[data-product-track]');
+  const productDialog = document.querySelector('.product-dialog');
+  if (productTrack && productDialog) {
+    const dialogImage = productDialog.querySelector('.product-dialog-visual img');
+    const dialogCategory = productDialog.querySelector('.product-dialog-category');
+    const dialogTitle = productDialog.querySelector('#product-dialog-title');
+    const dialogDescription = productDialog.querySelector('.product-dialog-description');
+    const dialogBenefits = productDialog.querySelector('.product-dialog-benefits');
+    const dialogPresentation = productDialog.querySelector('.product-dialog-presentation span');
+    const dialogWhatsApp = productDialog.querySelector('.product-dialog-whatsapp');
+    const dialogClose = productDialog.querySelector('.product-dialog-close');
+    let productTrigger = null;
+
+    productCatalog.forEach((product) => {
+      const card = document.createElement('article');
+      card.className = 'product-card';
+      card.innerHTML = `<button class="product-image-button" type="button" aria-label="Ver ${product.name}"><img src="assets/productos/thumbs/${product.slug}.webp" alt="Botella de ${product.name.toLowerCase()} artesanal" width="439" height="780" loading="lazy"></button><div class="product-card-body"><span class="product-category">Vinagre artesanal</span><h3>${product.name}</h3><p>${product.summary}</p><ul><li>${product.benefits[0]}</li><li>Elaborado con cultivo madre.</li></ul><div class="product-presentation">1 litro · 5% de acidez</div><div class="product-actions"><button class="btn product-view" type="button">Ver producto</button><a class="product-whatsapp" href="https://wa.me/59175919302?text=${encodeURIComponent(`Hola, quisiera consultar la disponibilidad del ${product.name.toLowerCase()}`)}" target="_blank" rel="noopener">Consultar disponibilidad</a></div></div>`;
+      const openProduct = (trigger) => {
+        productTrigger = trigger;
+        dialogImage.src = `assets/productos/full/${product.slug}.webp`;
+        dialogImage.alt = `Botella de ${product.name.toLowerCase()} artesanal`;
+        dialogCategory.textContent = 'Vinagre artesanal con cultivo madre';
+        dialogTitle.textContent = product.name;
+        dialogDescription.textContent = product.description;
+        dialogBenefits.replaceChildren(...product.benefits.map((benefit) => {
+          const item = document.createElement('li');
+          item.textContent = benefit;
+          return item;
+        }));
+        dialogPresentation.textContent = 'Botella de 1 litro · 5% de acidez';
+        dialogWhatsApp.href = `https://wa.me/59175919302?text=${encodeURIComponent(`Hola, quisiera consultar la disponibilidad del ${product.name.toLowerCase()}`)}`;
+        productDialog.showModal();
+        document.body.classList.add('modal-open');
+        dialogClose.focus();
+      };
+      card.querySelector('.product-image-button').addEventListener('click', (event) => openProduct(event.currentTarget));
+      card.querySelector('.product-view').addEventListener('click', (event) => openProduct(event.currentTarget));
+      productTrack.appendChild(card);
+    });
+
+    const closeProduct = () => productDialog.close();
+    dialogClose.addEventListener('click', closeProduct);
+    productDialog.addEventListener('click', (event) => {
+      if (event.target === productDialog) closeProduct();
+    });
+    productDialog.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      closeProduct();
+    });
+    productDialog.addEventListener('close', () => {
+      document.body.classList.remove('modal-open');
+      productTrigger?.focus();
+    });
+    const carousel = document.querySelector('[data-product-carousel]');
+    const scrollProducts = (direction) => productTrack.scrollBy({ left: direction * Math.max(280, productTrack.clientWidth * .82), behavior: 'smooth' });
+    carousel?.querySelector('.product-carousel-prev')?.addEventListener('click', () => scrollProducts(-1));
+    carousel?.querySelector('.product-carousel-next')?.addEventListener('click', () => scrollProducts(1));
+  }
+
   if (window.lucide) lucide.createIcons();
 });
