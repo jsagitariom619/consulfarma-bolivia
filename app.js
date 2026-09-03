@@ -117,3 +117,48 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   institutionalDialog?.addEventListener('close', () => document.body.classList.remove('modal-open'));
 });
+
+
+// Galerías compactas de fotografías reales
+document.querySelectorAll('[data-gallery]').forEach((gallery) => {
+  const main = gallery.querySelector('.gallery-main');
+  const title = gallery.querySelector('.gallery-caption strong');
+  const caption = gallery.querySelector('.gallery-caption span');
+  const dots = [...gallery.querySelectorAll('.gallery-dot')];
+  const previous = gallery.querySelector('.gallery-prev');
+  const next = gallery.querySelector('.gallery-next');
+  let current = Math.max(0, dots.findIndex((dot) => dot.classList.contains('is-active')));
+
+  const show = (index) => {
+    current = (index + dots.length) % dots.length;
+    const selected = dots[current];
+    main.classList.add('is-changing');
+    const preload = new Image();
+    preload.onload = () => {
+      main.src = selected.dataset.src;
+      main.alt = selected.dataset.alt || '';
+      main.width = Number(selected.dataset.width) || main.width;
+      main.height = Number(selected.dataset.height) || main.height;
+      main.classList.toggle('is-contain', selected.dataset.fit === 'contain');
+      title.textContent = selected.dataset.title || '';
+      caption.textContent = selected.dataset.caption || '';
+      dots.forEach((dot, dotIndex) => {
+        const active = dotIndex === current;
+        dot.classList.toggle('is-active', active);
+        if (active) dot.setAttribute('aria-current', 'true');
+        else dot.removeAttribute('aria-current');
+      });
+      main.classList.remove('is-changing');
+    };
+    preload.onerror = () => main.classList.remove('is-changing');
+    preload.src = selected.dataset.src;
+  };
+
+  dots.forEach((dot, index) => dot.addEventListener('click', () => show(index)));
+  previous?.addEventListener('click', () => show(current - 1));
+  next?.addEventListener('click', () => show(current + 1));
+  gallery.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') { event.preventDefault(); show(current - 1); }
+    if (event.key === 'ArrowRight') { event.preventDefault(); show(current + 1); }
+  });
+});
