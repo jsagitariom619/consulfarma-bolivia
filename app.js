@@ -119,46 +119,191 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// Galerías compactas de fotografías reales
-document.querySelectorAll('[data-gallery]').forEach((gallery) => {
-  const main = gallery.querySelector('.gallery-main');
-  const title = gallery.querySelector('.gallery-caption strong');
-  const caption = gallery.querySelector('.gallery-caption span');
-  const dots = [...gallery.querySelectorAll('.gallery-dot')];
-  const previous = gallery.querySelector('.gallery-prev');
-  const next = gallery.querySelector('.gallery-next');
-  let current = Math.max(0, dots.findIndex((dot) => dot.classList.contains('is-active')));
+// Sistema reutilizable de galerías y visor ampliado.
+document.addEventListener('DOMContentLoaded', () => {
+  const lightbox = document.createElement('div');
+  lightbox.className = 'image-lightbox';
+  lightbox.hidden = true;
+  lightbox.setAttribute('role', 'dialog');
+  lightbox.setAttribute('aria-modal', 'true');
+  lightbox.setAttribute('aria-label', 'Visor de fotografía ampliada');
+  lightbox.innerHTML = `
+    <div class="lightbox-shell">
+      <button class="lightbox-close" type="button" aria-label="Cerrar imagen ampliada"><i data-lucide="x"></i></button>
+      <button class="lightbox-arrow lightbox-previous" type="button" aria-label="Imagen anterior"><i data-lucide="chevron-left"></i></button>
+      <figure class="lightbox-figure">
+        <img class="lightbox-image" alt="">
+        <figcaption class="lightbox-caption"><strong></strong><span></span></figcaption>
+      </figure>
+      <button class="lightbox-arrow lightbox-next" type="button" aria-label="Imagen siguiente"><i data-lucide="chevron-right"></i></button>
+    </div>`;
+  document.body.appendChild(lightbox);
 
-  const show = (index) => {
-    current = (index + dots.length) % dots.length;
-    const selected = dots[current];
-    main.classList.add('is-changing');
-    const preload = new Image();
-    preload.onload = () => {
-      main.src = selected.dataset.src;
-      main.alt = selected.dataset.alt || '';
-      main.width = Number(selected.dataset.width) || main.width;
-      main.height = Number(selected.dataset.height) || main.height;
-      main.classList.toggle('is-contain', selected.dataset.fit === 'contain');
-      title.textContent = selected.dataset.title || '';
-      caption.textContent = selected.dataset.caption || '';
-      dots.forEach((dot, dotIndex) => {
-        const active = dotIndex === current;
-        dot.classList.toggle('is-active', active);
-        if (active) dot.setAttribute('aria-current', 'true');
-        else dot.removeAttribute('aria-current');
-      });
-      main.classList.remove('is-changing');
-    };
-    preload.onerror = () => main.classList.remove('is-changing');
-    preload.src = selected.dataset.src;
+  const lightboxImage = lightbox.querySelector('.lightbox-image');
+  const lightboxTitle = lightbox.querySelector('.lightbox-caption strong');
+  const lightboxDescription = lightbox.querySelector('.lightbox-caption span');
+  const closeButton = lightbox.querySelector('.lightbox-close');
+  const previousButton = lightbox.querySelector('.lightbox-previous');
+  const nextButton = lightbox.querySelector('.lightbox-next');
+  let lightboxItems = [];
+  let lightboxIndex = 0;
+  let lightboxTrigger = null;
+  let touchStartX = 0;
+
+  const paintLightbox = (index) => {
+    if (!lightboxItems.length) return;
+    lightboxIndex = (index + lightboxItems.length) % lightboxItems.length;
+    const item = lightboxItems[lightboxIndex];
+    lightboxImage.src = item.full || item.src;
+    lightboxImage.alt = item.alt || item.title || 'Fotografía ampliada';
+    lightboxTitle.textContent = item.title || '';
+    lightboxDescription.textContent = item.caption || '';
+    lightbox.querySelector('.lightbox-caption').hidden = !item.title && !item.caption;
+    const multiple = lightboxItems.length > 1;
+    previousButton.hidden = !multiple;
+    nextButton.hidden = !multiple;
   };
 
-  dots.forEach((dot, index) => dot.addEventListener('click', () => show(index)));
-  previous?.addEventListener('click', () => show(current - 1));
-  next?.addEventListener('click', () => show(current + 1));
-  gallery.addEventListener('keydown', (event) => {
-    if (event.key === 'ArrowLeft') { event.preventDefault(); show(current - 1); }
-    if (event.key === 'ArrowRight') { event.preventDefault(); show(current + 1); }
+  const openLightbox = (items, index, trigger) => {
+    lightboxItems = items;
+    lightboxTrigger = trigger;
+    paintLightbox(index);
+    lightbox.hidden = false;
+    document.body.classList.add('modal-open', 'lightbox-open');
+    closeButton.focus();
+  };
+
+  const closeLightbox = () => {
+    if (lightbox.hidden) return;
+    lightbox.hidden = true;
+    lightboxImage.removeAttribute('src');
+    document.body.classList.remove('modal-open', 'lightbox-open');
+    lightboxTrigger?.focus();
+  };
+
+  const galleryItems = (dots) => dots.map((dot) => ({
+    src: dot.dataset.src,
+    full: dot.dataset.full || dot.dataset.src,
+    alt: dot.dataset.alt || '',
+    title: dot.dataset.title || '',
+    caption: dot.dataset.caption || ''
+  }));
+
+  document.querySelectorAll('[data-gallery]').forEach((gallery) => {
+    const main = gallery.querySelector('.gallery-main');
+    const title = gallery.querySelector('.gallery-caption strong');
+    const caption = gallery.querySelector('.gallery-caption span');
+    const dots = [...gallery.querySelectorAll('.gallery-dot')];
+    const previous = gallery.querySelector('.gallery-prev');
+    const next = gallery.querySelector('.gallery-next');
+    let current = Math.max(0, dots.findIndex((dot) => dot.classList.contains('is-active')));
+
+    const expand = document.createElement('button');
+    expand.className = 'gallery-expand';
+    expand.type = 'button';
+    expand.setAttribute('aria-label', 'Ampliar fotografía');
+    expand.innerHTML = '<i data-lucide="maximize-2"></i>';
+    gallery.querySelector('.gallery-stage')?.appendChild(expand);
+
+    const show = (index) => {
+      current = (index + dots.length) % dots.length;
+      const selected = dots[current];
+      main.classList.add('is-changing');
+      const preload = new Image();
+      preload.onload = () => {
+        main.src = selected.dataset.src;
+        main.alt = selected.dataset.alt || '';
+        main.width = Number(selected.dataset.width) || main.width;
+        main.height = Number(selected.dataset.height) || main.height;
+        main.classList.toggle('is-contain', selected.dataset.fit === 'contain');
+        title.textContent = selected.dataset.title || '';
+        caption.textContent = selected.dataset.caption || '';
+        dots.forEach((dot, dotIndex) => {
+          const active = dotIndex === current;
+          dot.classList.toggle('is-active', active);
+          if (active) dot.setAttribute('aria-current', 'true');
+          else dot.removeAttribute('aria-current');
+        });
+        main.classList.remove('is-changing');
+      };
+      preload.onerror = () => main.classList.remove('is-changing');
+      preload.src = selected.dataset.src;
+    };
+
+    const openCurrent = () => openLightbox(galleryItems(dots), current, expand);
+    expand.addEventListener('click', openCurrent);
+    main.addEventListener('click', openCurrent);
+    main.setAttribute('tabindex', '0');
+    main.setAttribute('role', 'button');
+    main.setAttribute('aria-label', 'Ampliar fotografía seleccionada');
+    main.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openCurrent();
+      }
+    });
+    dots.forEach((dot, index) => dot.addEventListener('click', () => show(index)));
+    previous?.addEventListener('click', () => show(current - 1));
+    next?.addEventListener('click', () => show(current + 1));
+    gallery.addEventListener('keydown', (event) => {
+      if (lightbox.hidden && event.key === 'ArrowLeft') { event.preventDefault(); show(current - 1); }
+      if (lightbox.hidden && event.key === 'ArrowRight') { event.preventDefault(); show(current + 1); }
+    });
   });
+
+  const standalone = [...document.querySelectorAll('[data-lightbox-item]')];
+  standalone.forEach((item) => {
+    item.setAttribute('tabindex', '0');
+    item.setAttribute('role', 'button');
+    item.setAttribute('aria-label', item.getAttribute('aria-label') || 'Ampliar fotografía');
+    const openStandalone = () => {
+      const group = item.dataset.lightboxGroup || 'default';
+      const groupElements = standalone.filter((candidate) => (candidate.dataset.lightboxGroup || 'default') === group);
+      const items = groupElements.map((element) => ({
+        src: element.dataset.lightboxSrc || element.currentSrc || element.src,
+        full: element.dataset.lightboxFull || element.dataset.lightboxSrc || element.currentSrc || element.src,
+        alt: element.alt || '',
+        title: element.dataset.lightboxTitle || '',
+        caption: element.dataset.lightboxCaption || ''
+      }));
+      openLightbox(items, groupElements.indexOf(item), item);
+    };
+    item.addEventListener('click', openStandalone);
+    item.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openStandalone();
+      }
+    });
+  });
+
+  closeButton.addEventListener('click', closeLightbox);
+  previousButton.addEventListener('click', () => paintLightbox(lightboxIndex - 1));
+  nextButton.addEventListener('click', () => paintLightbox(lightboxIndex + 1));
+  lightbox.addEventListener('click', (event) => {
+    if (event.target === lightbox || event.target.classList.contains('lightbox-shell') || event.target.classList.contains('lightbox-figure')) closeLightbox();
+  });
+  lightbox.addEventListener('touchstart', (event) => {
+    touchStartX = event.changedTouches[0]?.clientX || 0;
+  }, { passive: true });
+  lightbox.addEventListener('touchend', (event) => {
+    const distance = (event.changedTouches[0]?.clientX || 0) - touchStartX;
+    if (Math.abs(distance) < 55) return;
+    paintLightbox(distance > 0 ? lightboxIndex - 1 : lightboxIndex + 1);
+  }, { passive: true });
+  document.addEventListener('keydown', (event) => {
+    if (lightbox.hidden) return;
+    if (event.key === 'Escape') closeLightbox();
+    if (event.key === 'ArrowLeft') { event.preventDefault(); paintLightbox(lightboxIndex - 1); }
+    if (event.key === 'ArrowRight') { event.preventDefault(); paintLightbox(lightboxIndex + 1); }
+    if (event.key === 'Tab') {
+      const controls = [closeButton, previousButton, nextButton].filter((control) => !control.hidden);
+      const first = controls[0];
+      const last = controls[controls.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    }
+  });
+
+  if (window.lucide) lucide.createIcons();
 });

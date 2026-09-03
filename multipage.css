@@ -60,6 +60,7 @@
 .service-gallery{min-width:0}
 .gallery-stage{position:relative;aspect-ratio:3/2;overflow:hidden;border-radius:var(--radius);background:linear-gradient(145deg,#dfece4,#f4f8f5);box-shadow:var(--shadow)}
 .gallery-main{display:block;width:100%;height:100%;object-fit:cover;object-position:center;transition:opacity .18s ease}
+.gallery-main[role="button"]{cursor:zoom-in}
 .gallery-main.is-changing{opacity:.35}
 .gallery-main.is-contain{object-fit:contain;padding:10px;background:linear-gradient(145deg,#e2eee7,#f7faf8)}
 .gallery-caption{position:absolute;left:14px;right:14px;bottom:14px;padding:12px 50px 12px 15px;border:1px solid rgba(255,255,255,.28);border-radius:15px;color:#fff;background:rgba(7,48,33,.8);backdrop-filter:blur(8px);display:flex;flex-direction:column;gap:1px}
@@ -69,20 +70,67 @@
 .gallery-arrow:hover,.gallery-arrow:focus-visible{background:var(--green);transform:translateY(-50%) scale(1.05)}
 .gallery-arrow svg{width:20px;height:20px}
 .gallery-prev{left:12px}.gallery-next{right:12px}
+.gallery-expand{position:absolute;right:14px;top:14px;width:42px;height:42px;border:1px solid rgba(255,255,255,.6);border-radius:50%;display:grid;place-items:center;background:rgba(7,48,33,.8);color:#fff;cursor:pointer;z-index:3;transition:.2s}
+.gallery-expand:hover,.gallery-expand:focus-visible{background:var(--green);transform:scale(1.05)}
+.gallery-expand svg{width:19px;height:19px}
 .gallery-dots{display:flex;align-items:center;justify-content:center;gap:9px;padding-top:14px}
 .gallery-dot{width:11px;height:11px;padding:0;border:0;border-radius:50%;background:#b6c9bd;cursor:pointer;transition:.2s}
 .gallery-dot:hover,.gallery-dot:focus-visible{background:#5b8c75;transform:scale(1.15)}
 .gallery-dot.is-active{width:28px;border-radius:999px;background:var(--green)}
 .gallery-copy-grid{grid-template-columns:minmax(0,780px);justify-content:center;text-align:left}
+
+/* Visor ampliado reutilizable */
+.image-lightbox{position:fixed;inset:0;z-index:9999;padding:3vh 4vw;background:rgba(3,22,15,.86);backdrop-filter:blur(6px);overflow:auto;overscroll-behavior:contain}
+.image-lightbox[hidden]{display:none}
+.lightbox-shell{position:relative;width:100%;min-height:94vh;display:grid;grid-template-columns:64px minmax(0,1fr) 64px;align-items:center;gap:18px}
+.lightbox-figure{margin:0;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.lightbox-image{display:block;max-width:90vw;max-height:82vh;width:auto;height:auto;object-fit:contain;border-radius:16px;background:#f2f7f4;box-shadow:0 26px 90px rgba(0,0,0,.4)}
+.lightbox-caption{width:min(760px,90vw);padding:10px 14px;color:#fff;text-align:center;display:flex;flex-direction:column;gap:3px}
+.lightbox-caption strong{font-size:1rem}.lightbox-caption span{font-size:.84rem;color:#d9e7df}
+.lightbox-close{position:fixed;right:22px;top:20px;width:48px;height:48px;border:1px solid rgba(255,255,255,.6);border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.13);color:#fff;cursor:pointer;z-index:2}
+.lightbox-close:hover,.lightbox-close:focus-visible,.lightbox-arrow:hover,.lightbox-arrow:focus-visible{background:var(--green);outline:3px solid rgba(255,255,255,.34);outline-offset:2px}
+.lightbox-close svg{width:24px;height:24px}
+.lightbox-arrow{width:52px;height:52px;border:1px solid rgba(255,255,255,.5);border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.12);color:#fff;cursor:pointer}
+.lightbox-arrow svg{width:26px;height:26px}
+.lightbox-open{overflow:hidden;touch-action:none}
+[data-lightbox-item]{cursor:zoom-in}
+
+/* Catálogo de Sueroterapia dentro de Enfermería */
+.therapy-section{padding:82px 0;background:linear-gradient(180deg,#f5faf6 0%,#fff 100%);border-top:1px solid #e3eee7}
+.therapy-intro{max-width:850px;margin:0 auto 34px;text-align:center}
+.therapy-intro h2{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,4vw,4rem);line-height:1.05;margin:10px 0 16px;color:#073f2d}
+.therapy-intro p{color:var(--muted);font-size:1.02rem;line-height:1.75}
+.therapy-gallery{width:min(900px,100%);margin:0 auto}
+.therapy-gallery .gallery-stage{aspect-ratio:16/10;background:linear-gradient(145deg,#dfece4,#f7faf8)}
+.therapy-gallery .gallery-main{object-fit:contain;padding:16px;background:transparent}
+.therapy-gallery .gallery-dots{max-width:620px;margin:0 auto;flex-wrap:wrap;row-gap:10px}
+.therapy-gallery .gallery-dot{width:12px;height:12px}
+.therapy-gallery .gallery-dot.is-active{width:30px}
+.therapy-gallery-note{margin:18px auto 0;text-align:center;color:var(--muted);font-size:.84rem}
+.therapy-cta{margin-top:42px;background:linear-gradient(135deg,#0b4933,#1b6f4e);color:#fff;border-radius:28px;padding:34px 38px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.therapy-cta h3{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.6rem);margin:0 0 6px}.therapy-cta p{margin:0;color:#dcebe3}
 @media(max-width:800px){
   .gallery-stage{aspect-ratio:4/3;border-radius:20px}
   .gallery-caption{left:10px;right:10px;bottom:10px;padding:10px 44px 10px 13px}
   .gallery-caption span{display:none}
   .gallery-arrow{width:38px;height:38px}
   .gallery-prev{left:8px}.gallery-next{right:8px}
+  .gallery-expand{right:10px;top:10px;width:38px;height:38px}
+  .image-lightbox{padding:18px 12px}
+  .lightbox-shell{min-height:calc(100vh - 36px);grid-template-columns:46px minmax(0,1fr) 46px;gap:6px}
+  .lightbox-image{max-width:calc(100vw - 24px);max-height:78vh;border-radius:12px}
+  .lightbox-arrow{width:42px;height:42px;background:rgba(7,48,33,.75)}
+  .lightbox-close{right:12px;top:12px;width:44px;height:44px;background:rgba(7,48,33,.8)}
+  .therapy-section{padding:62px 0}.therapy-intro{text-align:left}.therapy-gallery .gallery-stage{aspect-ratio:4/3}.therapy-cta{align-items:flex-start;flex-direction:column;padding:28px}
 }
 @media(max-width:480px){
   .gallery-stage{aspect-ratio:1/1}
   .gallery-main.is-contain{padding:6px}
   .gallery-caption{max-width:70%;right:auto}
+  .lightbox-shell{grid-template-columns:40px minmax(0,1fr) 40px;gap:2px}
+  .lightbox-arrow{width:38px;height:38px}
+  .lightbox-previous{transform:translateX(4px)}.lightbox-next{transform:translateX(-4px)}
+  .lightbox-image{max-width:calc(100vw - 18px);max-height:76vh}
+  .lightbox-caption{width:calc(100vw - 24px);padding:8px}.lightbox-caption span{font-size:.78rem}
+  .therapy-gallery .gallery-stage{aspect-ratio:1/1}.therapy-gallery .gallery-main{padding:8px}.therapy-cta .btn{width:100%;justify-content:center}
 }
