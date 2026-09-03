@@ -145,3 +145,6 @@
   .lightbox-caption{width:calc(100vw - 24px);padding:8px}.lightbox-caption span{font-size:.78rem}
   .therapy-gallery .gallery-stage{aspect-ratio:1/1}.therapy-gallery .gallery-main{padding:8px}.therapy-cta .btn{width:100%;justify-content:center}
 }
+
+.clay-catalog-section{background:linear-gradient(180deg,#fffaf5,#f7f0e7);border-top:1px solid #eadfce}.clay-catalog-section .product-card{border-color:#e9ddca}.clay-catalog-section .product-image-button{background:linear-gradient(145deg,#fbf7f0,#fff)}
+.product-audience{display:inline-flex;align-self:flex-start;margin:0 0 10px;padding:5px 9px;border-radius:999px;background:#edf5f0;color:#315b49;font-size:.72rem;font-weight:800}.product-purpose-label{display:block;color:#214b39;font-size:.78rem;margin:2px 0 4px}.product-purpose-summary{font-size:.82rem!important;line-height:1.55;margin-bottom:10px!important}.product-dialog-purpose{color:#355547;line-height:1.65;margin:0}

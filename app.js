@@ -314,37 +314,54 @@ document.addEventListener('DOMContentLoaded', () => {
     { slug: 'vinagre-manzana', name: 'Vinagre de manzana', summary: 'Acidez equilibrada y perfil frutal para distintas recetas.', description: 'Vinagre artesanal de manzana con una acidez equilibrada y perfil frutal, versátil para diferentes recetas.', benefits: ['Aporta el sabor frutal de la manzana.', 'Versátil para aderezos, salsas y marinados.', 'Elaborado artesanalmente con cultivo madre.'] },
     { slug: 'vinagre-pina', name: 'Vinagre de piña', summary: 'Notas tropicales para aportar variedad a las preparaciones.', description: 'Vinagre artesanal de piña con notas tropicales, pensado para aportar variedad y un toque frutal a las preparaciones.', benefits: ['Aporta notas tropicales de piña.', 'Complementa aderezos, salsas y marinados.', 'Elaborado artesanalmente con cultivo madre.'] }
   ];
-  const productTrack = document.querySelector('[data-product-track]');
+  const clayCatalog = [
+    { slug: 'arcilla-blanca-caolin', name: 'Mascarilla de Arcilla Blanca / Caolín', category: 'Arcillas Naturales', audience: 'Piel sensible o delicada', summary: 'Limpieza cosmética suave para pieles que necesitan un cuidado delicado.', purpose: 'Sirve para complementar la limpieza facial de pieles sensibles o delicadas, ayudando a retirar suavemente impurezas superficiales sin una sensación agresiva.', description: 'Mascarilla cosmética natural de arcilla blanca o caolín, orientada al cuidado suave de pieles sensibles o delicadas.', benefits: ['Ayuda a limpiar suavemente la superficie de la piel.', 'Contribuye a una apariencia limpia y equilibrada.', 'Aporta minerales propios de la arcilla.', 'Complementa rutinas de cuidado para piel sensible.'] },
+    { slug: 'arcilla-verde', name: 'Mascarilla de Arcilla Verde', category: 'Arcillas Naturales', audience: 'Piel grasa', summary: 'Limpieza absorbente para pieles con tendencia grasa y brillo visible.', purpose: 'Sirve para realizar una limpieza cosmética de pieles grasas, ayudando a absorber el exceso de sebo y a retirar impurezas de la superficie.', description: 'Mascarilla cosmética natural elaborada con arcilla verde, especialmente orientada al cuidado de pieles con tendencia grasa.', benefits: ['Ayuda a absorber el exceso de grasa.', 'Favorece la limpieza cosmética de la piel.', 'Puede disminuir temporalmente la apariencia de brillo.', 'Complementa el cuidado de pieles con tendencia grasa.'] },
+    { slug: 'arcilla-blanca', name: 'Mascarilla de Arcilla Blanca', category: 'Arcillas Naturales', audience: 'Piel normal a seca', summary: 'Cuidado suave para mejorar visualmente la uniformidad y textura de la piel.', purpose: 'Sirve para complementar la limpieza de pieles normales a secas y favorecer una apariencia más uniforme y cuidada.', description: 'Mascarilla cosmética natural de arcilla blanca, indicada en la etiqueta para piel normal a seca y pensada para una rutina de cuidado suave.', benefits: ['Ayuda a retirar impurezas superficiales.', 'Puede mejorar visualmente la uniformidad de la piel.', 'Favorece una sensación de suavidad.', 'Complementa el cuidado de pieles normales a secas.'] },
+    { slug: 'arcilla-rosada', name: 'Mascarilla de Arcilla Rosada', category: 'Arcillas Naturales', audience: 'Piel sensible', summary: 'Limpieza delicada con una sensación calmante y confortable.', purpose: 'Sirve para limpiar suavemente la piel sensible y complementar rutinas que buscan confort y una apariencia natural.', description: 'Mascarilla cosmética natural de arcilla rosada, orientada al cuidado delicado de pieles sensibles.', benefits: ['Ayuda a limpiar suavemente la piel.', 'Puede proporcionar una sensación calmante y confortable.', 'Aporta minerales propios de la arcilla.', 'Contribuye a una apariencia fresca y cuidada.'] },
+    { slug: 'arcilla-bentonita', name: 'Mascarilla de Arcilla Bentonita', category: 'Arcillas Naturales', audience: 'Piel normal a grasa', summary: 'Limpieza absorbente para retirar grasa e impurezas superficiales.', purpose: 'Sirve para complementar la limpieza cosmética de pieles normales a grasas, ayudando a absorber el exceso de sebo y las impurezas de la superficie.', description: 'Mascarilla cosmética natural de arcilla bentonita, orientada en su etiqueta a pieles normales a grasas.', benefits: ['Ayuda a absorber el exceso de grasa.', 'Favorece la eliminación de impurezas superficiales.', 'Contribuye a una sensación de limpieza profunda.', 'Complementa el cuidado de pieles normales a grasas.'] },
+    { slug: 'arcilla-amarilla', name: 'Mascarilla de Arcilla Amarilla', category: 'Arcillas Naturales', audience: 'Piel normal a mixta', summary: 'Limpieza equilibrante para pieles normales a mixtas.', purpose: 'Sirve para retirar el exceso de grasa de la superficie y complementar la limpieza de poros en pieles normales a mixtas.', description: 'Mascarilla cosmética natural de arcilla amarilla, indicada para el cuidado de pieles normales a mixtas.', benefits: ['Ayuda a retirar el exceso de grasa superficial.', 'Favorece la limpieza cosmética de los poros.', 'Aporta minerales propios de la arcilla.', 'Puede mejorar la apariencia de la textura de la piel.'] }
+  ];
+  productCatalog.forEach((product) => Object.assign(product, { category: 'Vinagre artesanal', audience: 'Con cultivo madre', purpose: product.summary, presentation: 'Botella de 1 litro · 5% de acidez', imageAlt: `Botella de ${product.name.toLowerCase()} artesanal` }));
+  clayCatalog.forEach((product) => Object.assign(product, { presentation: 'Envase tipo pouch resellable', imageAlt: `${product.name} de Ilusiones Cosmética Natural` }));
+
+  const productTracks = [...document.querySelectorAll('[data-product-track]')];
   const productDialog = document.querySelector('.product-dialog');
-  if (productTrack && productDialog) {
+  if (productTracks.length && productDialog) {
     const dialogImage = productDialog.querySelector('.product-dialog-visual img');
     const dialogCategory = productDialog.querySelector('.product-dialog-category');
     const dialogTitle = productDialog.querySelector('#product-dialog-title');
     const dialogDescription = productDialog.querySelector('.product-dialog-description');
+    const dialogPurposeHeading = document.createElement('h3');
+    dialogPurposeHeading.textContent = '¿Para qué sirve?';
+    const dialogPurpose = document.createElement('p');
+    dialogPurpose.className = 'product-dialog-purpose';
+    dialogDescription.after(dialogPurposeHeading, dialogPurpose);
     const dialogBenefits = productDialog.querySelector('.product-dialog-benefits');
     const dialogPresentation = productDialog.querySelector('.product-dialog-presentation span');
     const dialogWhatsApp = productDialog.querySelector('.product-dialog-whatsapp');
     const dialogClose = productDialog.querySelector('.product-dialog-close');
     let productTrigger = null;
 
-    productCatalog.forEach((product) => {
+    const renderProducts = (productTrack, products) => products.forEach((product) => {
       const card = document.createElement('article');
       card.className = 'product-card';
-      card.innerHTML = `<button class="product-image-button" type="button" aria-label="Ver ${product.name}"><img src="assets/productos/thumbs/${product.slug}.webp" alt="Botella de ${product.name.toLowerCase()} artesanal" width="439" height="780" loading="lazy"></button><div class="product-card-body"><span class="product-category">Vinagre artesanal</span><h3>${product.name}</h3><p>${product.summary}</p><ul><li>${product.benefits[0]}</li><li>Elaborado con cultivo madre.</li></ul><div class="product-presentation">1 litro · 5% de acidez</div><div class="product-actions"><button class="btn product-view" type="button">Ver producto</button><a class="product-whatsapp" href="https://wa.me/59175919302?text=${encodeURIComponent(`Hola, quisiera consultar la disponibilidad del ${product.name.toLowerCase()}`)}" target="_blank" rel="noopener">Consultar disponibilidad</a></div></div>`;
+      card.innerHTML = `<button class="product-image-button" type="button" aria-label="Ver ${product.name}"><img src="assets/productos/thumbs/${product.slug}.webp" alt="${product.imageAlt}" width="520" height="780" loading="lazy"></button><div class="product-card-body"><span class="product-category">${product.category}</span><h3>${product.name}</h3><span class="product-audience">${product.audience}</span><p>${product.summary}</p><strong class="product-purpose-label">¿Para qué sirve?</strong><p class="product-purpose-summary">${product.purpose}</p><ul><li>${product.benefits[0]}</li><li>${product.benefits[1]}</li></ul><div class="product-presentation">${product.presentation}</div><div class="product-actions"><button class="btn product-view" type="button">Ver detalles</button><a class="product-whatsapp" href="https://wa.me/59175919302?text=${encodeURIComponent(`Hola, quisiera consultar la disponibilidad de ${product.name}`)}" target="_blank" rel="noopener">Consultar disponibilidad</a></div></div>`;
       const openProduct = (trigger) => {
         productTrigger = trigger;
         dialogImage.src = `assets/productos/full/${product.slug}.webp`;
-        dialogImage.alt = `Botella de ${product.name.toLowerCase()} artesanal`;
-        dialogCategory.textContent = 'Vinagre artesanal con cultivo madre';
+        dialogImage.alt = product.imageAlt;
+        dialogCategory.textContent = `${product.category} · ${product.audience}`;
         dialogTitle.textContent = product.name;
         dialogDescription.textContent = product.description;
+        dialogPurpose.textContent = product.purpose;
         dialogBenefits.replaceChildren(...product.benefits.map((benefit) => {
           const item = document.createElement('li');
           item.textContent = benefit;
           return item;
         }));
-        dialogPresentation.textContent = 'Botella de 1 litro · 5% de acidez';
-        dialogWhatsApp.href = `https://wa.me/59175919302?text=${encodeURIComponent(`Hola, quisiera consultar la disponibilidad del ${product.name.toLowerCase()}`)}`;
+        dialogPresentation.textContent = product.presentation;
+        dialogWhatsApp.href = `https://wa.me/59175919302?text=${encodeURIComponent(`Hola, quisiera consultar la disponibilidad de ${product.name}.`)}`;
         productDialog.showModal();
         document.body.classList.add('modal-open');
         dialogClose.focus();
@@ -353,6 +370,8 @@ document.addEventListener('DOMContentLoaded', () => {
       card.querySelector('.product-view').addEventListener('click', (event) => openProduct(event.currentTarget));
       productTrack.appendChild(card);
     });
+    renderProducts(productTracks[0], productCatalog);
+    if (productTracks[1]) renderProducts(productTracks[1], clayCatalog);
 
     const closeProduct = () => productDialog.close();
     dialogClose.addEventListener('click', closeProduct);
@@ -367,10 +386,12 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.classList.remove('modal-open');
       productTrigger?.focus();
     });
-    const carousel = document.querySelector('[data-product-carousel]');
-    const scrollProducts = (direction) => productTrack.scrollBy({ left: direction * Math.max(280, productTrack.clientWidth * .82), behavior: 'smooth' });
-    carousel?.querySelector('.product-carousel-prev')?.addEventListener('click', () => scrollProducts(-1));
-    carousel?.querySelector('.product-carousel-next')?.addEventListener('click', () => scrollProducts(1));
+    document.querySelectorAll('[data-product-carousel]').forEach((carousel) => {
+      const track = carousel.querySelector('[data-product-track]');
+      const scrollProducts = (direction) => track.scrollBy({ left: direction * Math.max(280, track.clientWidth * .82), behavior: 'smooth' });
+      carousel.querySelector('.product-carousel-prev')?.addEventListener('click', () => scrollProducts(-1));
+      carousel.querySelector('.product-carousel-next')?.addEventListener('click', () => scrollProducts(1));
+    });
   }
 
   if (window.lucide) lucide.createIcons();
