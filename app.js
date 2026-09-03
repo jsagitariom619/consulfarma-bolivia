@@ -373,7 +373,10 @@ document.addEventListener('DOMContentLoaded', () => {
     renderProducts(productTracks[0], productCatalog);
     if (productTracks[1]) renderProducts(productTracks[1], clayCatalog);
 
-    const closeProduct = () => productDialog.close();
+    const closeProduct = () => {
+      document.body.classList.remove('modal-open');
+      if (productDialog.open) productDialog.close();
+    };
     dialogClose.addEventListener('click', closeProduct);
     productDialog.addEventListener('click', (event) => {
       if (event.target === productDialog) closeProduct();
