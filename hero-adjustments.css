@@ -1,0 +1,125 @@
+/* Ajuste puntual del Hero de inicio: foto real de farmacia, recorte tipo cover,
+   sin dock duplicado de servicios y con transición suave hacia el texto. */
+.home-redesign .hero-reference{
+  padding:0;
+  background:#fff;
+}
+
+.home-redesign .hero-reference:after,
+.home-redesign .hero-medical-pattern,
+.home-redesign .hero-service-dock{
+  display:none !important;
+}
+
+.home-redesign .hero-reference .hero-grid{
+  grid-template-columns:.94fr 1.06fr;
+  min-height:0;
+  align-items:stretch;
+}
+
+.home-redesign .hero-reference .hero-copy{
+  padding:44px 44px 46px 0;
+  align-self:center;
+}
+
+.home-redesign .hero-reference .hero-visual{
+  height:430px;
+  min-height:0;
+  align-self:stretch;
+  margin-right:calc((100vw - min(1180px,calc(100vw - 32px)))/-2);
+  overflow:hidden;
+  border-radius:0;
+  position:relative;
+  background:#fff;
+}
+
+.home-redesign .hero-real-photo{
+  width:100%;
+  height:100%;
+  position:absolute;
+  inset:0;
+  object-fit:cover;
+  object-position:61% 52%;
+}
+
+/* La imagen no termina con un corte vertical: se integra suavemente con el bloque de texto. */
+.home-redesign .hero-reference .hero-visual:before{
+  content:"";
+  position:absolute;
+  z-index:2;
+  inset:0 auto 0 0;
+  width:20%;
+  pointer-events:none;
+  background:linear-gradient(90deg,
+    #fff 0%,
+    rgba(255,255,255,.96) 15%,
+    rgba(255,255,255,.78) 36%,
+    rgba(255,255,255,.42) 62%,
+    rgba(255,255,255,0) 100%);
+}
+
+.home-redesign .hero-reference .hero-visual:after{
+  content:"";
+  display:block !important;
+  position:absolute;
+  z-index:2;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(180deg,
+    rgba(255,255,255,.04) 0%,
+    rgba(255,255,255,0) 72%,
+    rgba(255,255,255,.06) 100%);
+}
+
+/* El distintivo anterior queda fuera para no competir con la foto ni volver a aumentar visualmente el Hero. */
+.home-redesign .hero-reference .hero-badge{
+  display:none;
+}
+
+.home-redesign .home-services{
+  padding-top:58px;
+}
+
+@media(max-width:1100px){
+  .home-redesign .hero-reference .hero-grid{
+    grid-template-columns:1fr;
+  }
+  .home-redesign .hero-reference .hero-copy{
+    padding:42px 0 30px;
+  }
+  .home-redesign .hero-reference .hero-visual{
+    height:380px;
+    margin:0;
+    border-radius:0;
+  }
+  .home-redesign .hero-reference .hero-visual:before{
+    width:100%;
+    height:20%;
+    inset:0 0 auto 0;
+    background:linear-gradient(180deg,#fff 0%,rgba(255,255,255,.65) 42%,rgba(255,255,255,0) 100%);
+  }
+  .home-redesign .hero-real-photo{
+    object-position:60% 50%;
+  }
+}
+
+@media(max-width:620px){
+  .home-redesign .hero-reference .hero-copy{
+    padding:30px 0 24px;
+  }
+  .home-redesign .hero-reference .hero-visual{
+    height:270px;
+  }
+  .home-redesign .hero-real-photo{
+    object-position:63% 52%;
+  }
+  .home-redesign .home-services{
+    padding-top:46px;
+  }
+}
+
+@media(max-width:390px){
+  .home-redesign .hero-reference .hero-visual{
+    height:245px;
+  }
+}
