@@ -23,7 +23,7 @@
 }
 
 .home-redesign .hero-reference .hero-visual{
-  height:430px;
+  height:auto;
   min-height:0;
   align-self:stretch;
   margin-right:calc((100vw - min(1180px,calc(100vw - 32px)))/-2);
