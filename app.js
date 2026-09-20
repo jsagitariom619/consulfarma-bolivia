@@ -1,4 +1,71 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+  // Consulfarma Educa: formulario de pasantías, aislado del resto de la navegación.
+  const internshipDialog = document.querySelector('.internship-dialog');
+  const internshipOpen = document.querySelector('[data-internship-open]');
+  if (internshipDialog && internshipOpen) {
+    const form = internshipDialog.querySelector('.internship-form');
+    const closeButton = internshipDialog.querySelector('.internship-dialog-close');
+    const program = form.elements.programa;
+    const otherWrap = internshipDialog.querySelector('.internship-other');
+    const error = internshipDialog.querySelector('.internship-form-error');
+    const closeInternship = () => {
+      document.body.classList.remove('modal-open');
+      if (internshipDialog.open) internshipDialog.close();
+    };
+    internshipOpen.addEventListener('click', () => {
+      internshipDialog.showModal();
+      document.body.classList.add('modal-open');
+      closeButton.focus();
+    });
+    closeButton.addEventListener('click', closeInternship);
+    internshipDialog.addEventListener('click', (event) => {
+      if (event.target === internshipDialog) closeInternship();
+    });
+    internshipDialog.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      closeInternship();
+    });
+    internshipDialog.addEventListener('close', () => {
+      document.body.classList.remove('modal-open');
+      internshipOpen.focus();
+    });
+    program.addEventListener('change', () => {
+      const showOther = program.value === 'Otro relacionado';
+      otherWrap.hidden = !showOther;
+      form.elements.otroPrograma.required = showOther;
+      if (!showOther) form.elements.otroPrograma.value = '';
+    });
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      error.textContent = '';
+      if (!form.checkValidity()) {
+        error.textContent = 'Completa los campos obligatorios antes de enviar la solicitud.';
+        form.reportValidity();
+        return;
+      }
+      const value = (name) => form.elements[name]?.value.trim() || '';
+      const lines = [
+        'SOLICITUD DE PASANTÍA — CONSULFARMA EDUCA',
+        '',
+        'Nombre: ' + value('nombre'),
+        'Teléfono: ' + value('telefono'),
+        'Institución: ' + value('institucion'),
+        'Carrera/programa: ' + (program.value === 'Otro relacionado' ? value('otroPrograma') : program.value)
+      ];
+      const optional = [
+        ['Nivel/semestre', value('nivel')],
+        ['Disponibilidad', value('disponibilidad')],
+        ['Pasantía requerida por institución', value('requisito')],
+        ['Duración requerida', value('duracion')],
+        ['Observaciones', value('observaciones')]
+      ];
+      optional.forEach(([label, val]) => { if (val) lines.push(label + ': ' + val); });
+      lines.push('', 'Quisiera solicitar información para realizar mis pasantías en Consulfarma.');
+      window.open('https://wa.me/59175919302?text=' + encodeURIComponent(lines.join('\n')), '_blank', 'noopener');
+    });
+  }
+
   if (window.lucide) lucide.createIcons();
 
   const contact = {
