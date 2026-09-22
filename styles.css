@@ -28,12 +28,12 @@
 .home-redesign .nav-wrap{height:82px}.home-redesign .brand-copy strong{color:var(--green);font-family:'Playfair Display',serif;font-size:1.22rem}.home-redesign .brand-copy small{color:var(--navy)}
 .hero-reference{padding:0 0 56px;background:linear-gradient(122deg,#fff 2%,#f7fbf8 48%,var(--green-3) 100%);isolation:isolate}
 .hero-reference:after{content:'';position:absolute;inset:auto -7% -42% 34%;height:75%;background:radial-gradient(circle,rgba(91,143,217,.14),transparent 67%);z-index:-1}
-.hero-reference .hero-grid{grid-template-columns:.94fr 1.06fr;min-height:560px;align-items:center;gap:26px}
+.hero-reference .hero-grid{grid-template-columns:.92fr 1.08fr;min-height:560px;align-items:center}
 .hero-reference .hero-copy{padding:58px 48px 92px 0;position:relative;z-index:2}
 .hero-reference h1{font-size:clamp(3.3rem,5.4vw,5.75rem);color:var(--navy);letter-spacing:-.035em;margin:14px 0 20px}.hero-reference h1 em{color:var(--green);font-style:italic}
 .hero-reference .hero-copy>p{font-size:1.05rem;line-height:1.65;color:#516763;max-width:590px}
-.hero-reference .hero-visual{height:480px;max-height:480px;min-height:0;align-self:center;margin-right:0;overflow:hidden;border-radius:30px;position:relative}
-.hero-real-photo{width:100%;height:100%;object-fit:cover;object-position:62% 52%;position:absolute;inset:0}.hero-reference .hero-visual:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.72) 0,rgba(255,255,255,.28) 11%,transparent 27%,rgba(11,45,91,.025) 100%);pointer-events:none}
+.hero-reference .hero-visual{height:500px;min-height:0;align-self:center;margin-right:calc((100vw - min(1180px,calc(100vw - 32px)))/-2);overflow:hidden;border-radius:48% 0 0 44%/52% 0 0 48%;position:relative}
+.hero-real-photo{width:100%;height:100%;object-fit:cover;object-position:58% center;position:absolute;inset:0}.hero-reference .hero-visual:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(214,234,215,.34),transparent 32%,rgba(11,45,91,.05))}
 .hero-reference .hero-badge{z-index:2;right:9%;bottom:52px;width:190px;color:var(--navy);border:1px solid rgba(11,107,79,.12)}
 .hero-reference .trust-row{grid-template-columns:repeat(2,1fr);max-width:590px;gap:17px 26px}.hero-reference .trust-row strong{font-size:.81rem;color:var(--navy)}.hero-reference .trust-row small{font-size:.69rem}.hero-reference .trust-row svg{color:var(--green)}
 .hero-medical-pattern{position:absolute;inset:22px 2% auto auto;width:250px;height:210px;z-index:1;color:var(--green);opacity:.08;pointer-events:none}.hero-medical-pattern svg{position:absolute;width:78px;height:78px}.hero-medical-pattern svg:nth-child(1){left:0;top:65px;transform:rotate(-32deg)}.hero-medical-pattern svg:nth-child(2){right:5px;top:0;width:92px;height:92px}.hero-medical-pattern svg:nth-child(3){right:0;bottom:0;width:84px;height:84px}
