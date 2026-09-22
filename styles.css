@@ -53,10 +53,28 @@
 /* Menú principal institucional: cambio exclusivamente visual. */
 @media(min-width:801px){
   .site-header .nav-wrap{gap:12px}
-  .site-header .main-nav{gap:18px;padding:9px 18px;margin-left:auto;background:var(--green);border-radius:18px;box-shadow:0 8px 22px rgba(11,107,79,.16)}
-  .site-header .main-nav a{color:#fff;padding:2px 0}
+  .site-header .main-nav{
+    gap:clamp(18px,2.25vw,34px);
+    padding:14px 34px 14px 38px;
+    margin-left:auto;
+    margin-right:-12px;
+    min-height:58px;
+    background:var(--green);
+    border-radius:18px 0 0 18px;
+    box-shadow:0 8px 22px rgba(11,107,79,.16)
+  }
+  .site-header .main-nav a{color:#fff;padding:2px 0;font-size:.94rem}
   .site-header .main-nav a:after{bottom:-7px;background:#fff}
-  .site-header .header-cta{background:#fff;color:var(--green);border-color:#fff;border-radius:13px}
+  .site-header .header-cta{
+    min-height:40px;
+    padding:10px 24px;
+    margin-right:9px;
+    background:#fff;
+    color:var(--green);
+    border-color:#fff;
+    border-radius:13px;
+    box-shadow:0 0 0 9px var(--green),9px 0 0 9px var(--green)
+  }
   .site-header .header-cta:hover{background:#f3faf6;color:var(--green);transform:translateY(-1px)}
   .site-header .header-cta svg{color:var(--green)}
 }
