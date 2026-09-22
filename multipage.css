@@ -18,9 +18,9 @@
 
 /* Ecografía abdominal dentro de Atención Médica */
 .ultrasound-service{padding:58px 0 48px;background:linear-gradient(180deg,#f7faf8,#fff)}
-.ultrasound-intro{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:46px;align-items:center}
-.ultrasound-photo{position:relative;margin:0;overflow:hidden;border-radius:28px;background:#e8f0eb;box-shadow:var(--shadow)}
-.ultrasound-photo img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:center;display:block}
+.ultrasound-intro{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:46px;align-items:start}
+.ultrasound-photo{position:relative;margin:0;height:clamp(430px,37vw,505px);overflow:hidden;border-radius:28px;background:#e8f0eb;box-shadow:var(--shadow)}
+.ultrasound-photo img{width:100%;height:100%;object-fit:cover;object-position:18% 64%;display:block}
 .ultrasound-photo figcaption{position:absolute;left:16px;bottom:16px;padding:9px 12px;border-radius:11px;background:rgba(255,255,255,.92);color:#25493b;font-size:.75rem;font-weight:700}
 .ultrasound-copy h2{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,4vw,4rem);line-height:1.05;margin:12px 0 18px;color:#073f2d}
 .ultrasound-copy>p{color:var(--muted);line-height:1.75;margin:0}
@@ -37,8 +37,8 @@
 .ultrasound-information p{margin:0 0 12px}.ultrasound-information ul{padding-left:19px;margin:0}.ultrasound-information li+li{margin-top:7px}
 .ultrasound-action{display:flex;justify-content:space-between;align-items:center;gap:28px;margin-top:22px;padding:24px 28px;border-radius:22px;background:linear-gradient(135deg,#edf7f0,#f8fbf9);border:1px solid #dceae2}
 .ultrasound-action>div{display:flex;gap:15px;align-items:flex-start}.ultrasound-action svg{width:27px;color:var(--green);flex:0 0 auto}.ultrasound-action p{display:flex;flex-direction:column;gap:4px;margin:0}.ultrasound-action span{color:var(--muted);font-size:.86rem;line-height:1.55}.ultrasound-action>a{white-space:nowrap}
-@media(max-width:900px){.ultrasound-intro{grid-template-columns:1fr}.ultrasound-information{grid-template-columns:1fr 1fr}.ultrasound-information article:last-child{grid-column:1/-1}}
-@media(max-width:600px){.ultrasound-service{padding:44px 0 38px}.ultrasound-intro{gap:30px}.ultrasound-photo{border-radius:22px}.ultrasound-photo img{aspect-ratio:4/3}.ultrasound-benefits,.ultrasound-information{grid-template-columns:1fr}.ultrasound-information article:last-child{grid-column:auto}.ultrasound-action{align-items:flex-start;flex-direction:column;padding:22px}.ultrasound-action>a{width:100%;white-space:normal;text-align:center}.ultrasound-copy h2{font-size:2.55rem}}
+@media(max-width:900px){.ultrasound-intro{grid-template-columns:1fr}.ultrasound-photo{height:auto;aspect-ratio:16/9}.ultrasound-information{grid-template-columns:1fr 1fr}.ultrasound-information article:last-child{grid-column:1/-1}}
+@media(max-width:600px){.ultrasound-service{padding:44px 0 38px}.ultrasound-intro{gap:30px}.ultrasound-photo{border-radius:22px;aspect-ratio:16/10}.ultrasound-benefits,.ultrasound-information{grid-template-columns:1fr}.ultrasound-information article:last-child{grid-column:auto}.ultrasound-action{align-items:flex-start;flex-direction:column;padding:22px}.ultrasound-action>a{width:100%;white-space:normal;text-align:center}.ultrasound-copy h2{font-size:2.55rem}}
 
 
 /* Fotografías reales de Farmacia y Productos naturales */
