@@ -68,12 +68,12 @@
   .site-header .header-cta{
     min-height:40px;
     padding:10px 24px;
-    margin-right:0;
+    margin:0 3px 0 0;
     background:#fff;
     color:var(--green);
-    border-color:#fff;
+    border:1px solid rgba(255,255,255,.92);
     border-radius:13px;
-    box-shadow:none
+    box-shadow:0 0 0 5px var(--green)
   }
   .site-header .header-cta:hover{background:#f3faf6;color:var(--green);transform:translateY(-1px)}
   .site-header .header-cta svg{color:var(--green)}
