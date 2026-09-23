@@ -60,7 +60,7 @@
     margin-right:-12px;
     min-height:58px;
     background:var(--green);
-    border-radius:18px 0 0 18px;
+    border-radius:18px;
     box-shadow:0 8px 22px rgba(11,107,79,.16)
   }
   .site-header .main-nav a{color:#fff;padding:2px 0;font-size:.94rem}
@@ -68,12 +68,12 @@
   .site-header .header-cta{
     min-height:40px;
     padding:10px 24px;
-    margin:0 3px 0 0;
+    margin:0;
     background:#fff;
     color:var(--green);
     border:1px solid rgba(255,255,255,.92);
     border-radius:13px;
-    box-shadow:0 0 0 5px var(--green)
+    box-shadow:none
   }
   .site-header .header-cta:hover{background:#f3faf6;color:var(--green);transform:translateY(-1px)}
   .site-header .header-cta svg{color:var(--green)}
