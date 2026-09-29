@@ -487,5 +487,123 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  const promotionsCarousel = document.querySelector('[data-promotions-carousel]');
+  if (promotionsCarousel) {
+    const promotions = [
+      { id: 'limpieza-facial', title: 'Limpieza facial', image: 'assets/promociones/limpieza-facial.webp', width: 492, height: 333, active: true, startDate: null, endDate: null },
+      { id: 'prp-capilar', title: 'PRP capilar', image: 'assets/promociones/prp-capilar.webp', width: 483, height: 333, active: true, startDate: null, endDate: null },
+      { id: 'nad-resveratrol', title: 'NAD + resveratrol', image: 'assets/promociones/nad-resveratrol.webp', width: 494, height: 333, active: true, startDate: null, endDate: null },
+      { id: 'suero-biotina', title: 'Suero de biotina', image: 'assets/promociones/suero-biotina.webp', width: 492, height: 340, active: true, startDate: null, endDate: null },
+      { id: 'drenaje-mesoterapia', title: 'Drenaje linfático y mesoterapia', image: 'assets/promociones/drenaje-mesoterapia.webp', width: 483, height: 340, active: true, startDate: null, endDate: null },
+      { id: 'tirzepatida', title: 'Tirzepatida', image: 'assets/promociones/tirzepatida.webp', width: 494, height: 340, active: true, startDate: null, endDate: null }
+    ];
+    const today = new Date().toISOString().slice(0, 10);
+    const visiblePromotions = promotions.filter(({ active, startDate, endDate }) => active && (!startDate || startDate <= today) && (!endDate || endDate >= today));
+    const track = promotionsCarousel.querySelector('[data-promotions-track]');
+    const dots = promotionsCarousel.querySelector('[data-promotions-dots]');
+    const previousButton = promotionsCarousel.querySelector('.promotions-prev');
+    const nextButton = promotionsCarousel.querySelector('.promotions-next');
+    const dialog = document.querySelector('[data-promotion-dialog]');
+    const dialogImage = dialog?.querySelector('[data-promotion-image]');
+    const dialogTitle = dialog?.querySelector('[data-promotion-title]');
+    const dialogWhatsApp = dialog?.querySelector('[data-promotion-whatsapp]');
+    let page = 0;
+    let modalIndex = 0;
+    let timer;
+    let touchStartX = 0;
+    let promotionTrigger = null;
+    const perPage = () => window.innerWidth >= 1000 ? 3 : window.innerWidth >= 700 ? 2 : 1;
+    const pageCount = () => Math.max(1, Math.ceil(visiblePromotions.length / perPage()));
+    const renderCards = () => {
+      track.replaceChildren(...visiblePromotions.map((promotion, index) => {
+        const card = document.createElement('article');
+        card.className = 'promotion-card';
+        card.innerHTML = `<button class="promotion-card-button" type="button" aria-label="Ampliar promoción: ${promotion.title}" data-promotion-index="${index}"><img src="${promotion.image}" alt="Promoción de Consulfarma: ${promotion.title}" width="${promotion.width}" height="${promotion.height}" loading="lazy" decoding="async"></button>`;
+        return card;
+      }));
+    };
+    const renderDots = () => {
+      dots.replaceChildren(...Array.from({ length: pageCount() }, (_, index) => {
+        const dot = document.createElement('button');
+        dot.className = 'promotions-dot';
+        dot.type = 'button';
+        dot.setAttribute('aria-label', `Ir al grupo ${index + 1}`);
+        dot.addEventListener('click', () => showPage(index, true));
+        return dot;
+      }));
+    };
+    const updateCarousel = () => {
+      page = Math.min(page, pageCount() - 1);
+      const firstCard = track.children[page * perPage()];
+      track.style.transform = `translateX(-${firstCard?.offsetLeft || 0}px)`;
+      [...dots.children].forEach((dot, index) => dot.setAttribute('aria-current', String(index === page)));
+      previousButton.disabled = pageCount() <= 1;
+      nextButton.disabled = pageCount() <= 1;
+    };
+    const showPage = (nextPage, userInitiated = false) => {
+      page = (nextPage + pageCount()) % pageCount();
+      updateCarousel();
+      if (userInitiated) restartAutoplay();
+    };
+    const stopAutoplay = () => window.clearInterval(timer);
+    const startAutoplay = () => {
+      stopAutoplay();
+      if (pageCount() > 1 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) timer = window.setInterval(() => showPage(page + 1), 6000);
+    };
+    const restartAutoplay = () => startAutoplay();
+    const openPromotion = (index, trigger) => {
+      modalIndex = index;
+      promotionTrigger = trigger;
+      const promotion = visiblePromotions[modalIndex];
+      dialogImage.src = promotion.image;
+      dialogImage.alt = `Promoción de Consulfarma: ${promotion.title}`;
+      dialogImage.width = promotion.width;
+      dialogImage.height = promotion.height;
+      dialogTitle.textContent = promotion.title;
+      dialogWhatsApp.href = `https://wa.me/59175919302?text=${encodeURIComponent('Hola, quisiera consultar sobre esta promoción de Consulfarma.')}`;
+      if (!dialog.open) {
+        dialog.showModal();
+        document.body.classList.add('modal-open');
+        dialog.querySelector('[data-promotion-close]').focus();
+      }
+    };
+    const moveModal = (direction) => openPromotion((modalIndex + direction + visiblePromotions.length) % visiblePromotions.length, promotionTrigger);
+    const closePromotion = () => {
+      document.body.classList.remove('modal-open');
+      if (dialog.open) dialog.close();
+    };
+    renderCards();
+    renderDots();
+    updateCarousel();
+    startAutoplay();
+    previousButton.addEventListener('click', () => showPage(page - 1, true));
+    nextButton.addEventListener('click', () => showPage(page + 1, true));
+    track.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-promotion-index]');
+      if (button) openPromotion(Number(button.dataset.promotionIndex), button);
+    });
+    promotionsCarousel.addEventListener('mouseenter', stopAutoplay);
+    promotionsCarousel.addEventListener('mouseleave', startAutoplay);
+    promotionsCarousel.addEventListener('focusin', stopAutoplay);
+    promotionsCarousel.addEventListener('focusout', startAutoplay);
+    promotionsCarousel.addEventListener('touchstart', (event) => { touchStartX = event.changedTouches[0].clientX; stopAutoplay(); }, { passive: true });
+    promotionsCarousel.addEventListener('touchend', (event) => {
+      const distance = event.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(distance) > 50) showPage(page + (distance < 0 ? 1 : -1), true);
+      else startAutoplay();
+    }, { passive: true });
+    window.addEventListener('resize', () => {
+      renderDots();
+      updateCarousel();
+      restartAutoplay();
+    });
+    dialog?.querySelector('[data-promotion-close]').addEventListener('click', closePromotion);
+    dialog?.querySelector('[data-promotion-prev]').addEventListener('click', () => moveModal(-1));
+    dialog?.querySelector('[data-promotion-next]').addEventListener('click', () => moveModal(1));
+    dialog?.addEventListener('click', (event) => { if (event.target === dialog) closePromotion(); });
+    dialog?.addEventListener('cancel', (event) => { event.preventDefault(); closePromotion(); });
+    dialog?.addEventListener('close', () => promotionTrigger?.focus());
+  }
+
   if (window.lucide) lucide.createIcons();
 });
