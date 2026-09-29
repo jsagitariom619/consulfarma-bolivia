@@ -535,7 +535,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateCarousel = () => {
       page = Math.min(page, pageCount() - 1);
       const firstCard = track.children[page * perPage()];
-      track.style.transform = `translateX(-${firstCard?.offsetLeft || 0}px)`;
+      const firstOffset = track.firstElementChild?.offsetLeft || 0;
+      track.style.transform = `translateX(-${firstCard ? firstCard.offsetLeft - firstOffset : 0}px)`;
       [...dots.children].forEach((dot, index) => dot.setAttribute('aria-current', String(index === page)));
       previousButton.disabled = pageCount() <= 1;
       nextButton.disabled = pageCount() <= 1;
