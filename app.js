@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
       heroLinks[1].setAttribute('href', contact.whatsappUrl);
       heroLinks[1].setAttribute('target', '_blank');
       heroLinks[1].setAttribute('rel', 'noopener');
-      heroLinks[1].innerHTML = 'Escríbenos por WhatsApp <i data-lucide="message-circle"></i>';
+      heroLinks[1].innerHTML = 'Consultar por WhatsApp <i data-lucide="message-circle"></i>';
     }
     if (window.lucide) lucide.createIcons();
   }

@@ -23,6 +23,11 @@
   align-self:center;
 }
 
+.home-redesign .hero-reference h1{
+  font-size:clamp(3.2rem,4.6vw,4.65rem);
+  line-height:.98;
+}
+
 .home-redesign .hero-reference .hero-visual{
   height:480px;
   max-height:480px;
@@ -41,7 +46,7 @@
   position:absolute;
   inset:0;
   object-fit:cover;
-  object-position:62% 52%;
+  object-position:50% 50%;
 }
 
 /* La imagen no termina con un corte vertical: se integra suavemente con el bloque de texto. */
@@ -73,9 +78,18 @@
     rgba(255,255,255,.06) 100%);
 }
 
-/* El distintivo anterior queda fuera para no competir con la foto ni volver a aumentar visualmente el Hero. */
 .home-redesign .hero-reference .hero-badge{
-  display:none;
+  display:flex;
+  right:20px;
+  bottom:18px;
+  width:auto;
+  max-width:calc(100% - 40px);
+  padding:11px 16px;
+  border-radius:999px;
+  font-size:.78rem;
+  color:var(--navy);
+  border:1px solid rgba(11,107,79,.12);
+  box-shadow:0 10px 28px rgba(11,45,91,.12);
 }
 
 .home-redesign .home-services{
@@ -101,7 +115,7 @@
     background:linear-gradient(180deg,#fff 0%,rgba(255,255,255,.65) 42%,rgba(255,255,255,0) 100%);
   }
   .home-redesign .hero-real-photo{
-    object-position:60% 50%;
+    object-position:50% 50%;
   }
 }
 
@@ -113,7 +127,10 @@
     height:270px;
   }
   .home-redesign .hero-real-photo{
-    object-position:63% 52%;
+    object-position:50% 50%;
+  }
+  .home-redesign .hero-reference h1{
+    font-size:clamp(2.7rem,12vw,3.8rem);
   }
   .home-redesign .home-services{
     padding-top:46px;
