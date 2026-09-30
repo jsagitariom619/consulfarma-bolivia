@@ -606,5 +606,20 @@ document.addEventListener('DOMContentLoaded', () => {
     dialog?.addEventListener('close', () => promotionTrigger?.focus());
   }
 
+  const visitCount = document.querySelector('[data-visit-count]');
+  if (visitCount) {
+    fetch('/api/visits', { headers: { Accept: 'application/json' }, cache: 'no-store' })
+      .then(response => {
+        if (!response.ok) throw new Error('Contador no disponible');
+        return response.json();
+      })
+      .then(data => {
+        if (Number.isFinite(data.count)) visitCount.textContent = new Intl.NumberFormat('es-BO').format(data.count);
+      })
+      .catch(() => {
+        visitCount.textContent = '—';
+      });
+  }
+
   if (window.lucide) lucide.createIcons();
 });
