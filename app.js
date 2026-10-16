@@ -487,6 +487,49 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  const campaignCarousel = document.querySelector('[data-campaign-carousel]');
+  if (campaignCarousel) {
+    const track = campaignCarousel.querySelector('[data-campaign-track]');
+    const slides = [...track.children];
+    const dots = campaignCarousel.querySelector('[data-campaign-dots]');
+    const status = campaignCarousel.querySelector('[data-campaign-status]');
+    const previousButton = campaignCarousel.querySelector('.campaign-prev');
+    const nextButton = campaignCarousel.querySelector('.campaign-next');
+    let currentSlide = 0;
+    let touchStartX = 0;
+
+    const showSlide = (nextSlide) => {
+      currentSlide = (nextSlide + slides.length) % slides.length;
+      track.style.transform = `translateX(-${currentSlide * 100}%)`;
+      slides.forEach((slide, index) => slide.setAttribute('aria-hidden', String(index !== currentSlide)));
+      [...dots.children].forEach((dot, index) => dot.setAttribute('aria-current', String(index === currentSlide)));
+      status.textContent = `Fotografía ${currentSlide + 1} de ${slides.length}`;
+    };
+
+    dots.replaceChildren(...slides.map((_, index) => {
+      const dot = document.createElement('button');
+      dot.className = 'campaign-dot';
+      dot.type = 'button';
+      dot.setAttribute('aria-label', `Ver fotografía ${index + 1}`);
+      dot.addEventListener('click', () => showSlide(index));
+      return dot;
+    }));
+    previousButton.addEventListener('click', () => showSlide(currentSlide - 1));
+    nextButton.addEventListener('click', () => showSlide(currentSlide + 1));
+    campaignCarousel.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') showSlide(currentSlide - 1);
+      if (event.key === 'ArrowRight') showSlide(currentSlide + 1);
+    });
+    track.addEventListener('touchstart', (event) => {
+      touchStartX = event.changedTouches[0].clientX;
+    }, { passive: true });
+    track.addEventListener('touchend', (event) => {
+      const distance = event.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(distance) > 50) showSlide(currentSlide + (distance < 0 ? 1 : -1));
+    }, { passive: true });
+    showSlide(0);
+  }
+
   const promotionsCarousel = document.querySelector('[data-promotions-carousel]');
   if (promotionsCarousel) {
     const promotions = [
